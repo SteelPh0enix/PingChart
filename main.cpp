@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
   UIBackend backend;
   CursorPositionProvider dragHelper;
 
+  backend.setDestinationIP(destinationIp);
+
   QQmlApplicationEngine engine;
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));

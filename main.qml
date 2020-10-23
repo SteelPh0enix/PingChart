@@ -14,10 +14,10 @@ Window {
 
     property color backgroundTransparentColor: "#88222222"
     property color gridColor: "#CACACA"
-    property string pingedIP
-    property double averagePing
-    property double maximumPing
-    property double minimumPing
+    property string pingedIP: uiBackend.destinationIP
+    property double averagePing: uiBackend.avgLatency
+    property double maximumPing: uiBackend.maxLatency
+    property double minimumPing: uiBackend.minLatency
 
     x: uiBackend.windowPosition.x
     y: uiBackend.windowPosition.y
@@ -81,8 +81,9 @@ Window {
         Text {
             id: pingInfo
             text: qsTr("Dest: %1 | avg: %2ms | min: %3ms | max: %4ms").arg(
-                      pingedIP).arg(averagePing).arg(minimumPing).arg(
-                      maximumPing)
+                      pingedIP).arg(averagePing.toLocaleString()).arg(
+                      minimumPing.toLocaleString()).arg(
+                      maximumPing.toLocaleString())
             font.family: "Hack"
             font.pixelSize: 12
             color: "white"
