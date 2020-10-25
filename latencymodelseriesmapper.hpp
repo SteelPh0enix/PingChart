@@ -11,20 +11,20 @@ class LatencyModelSeriesMapper : public QObject {
   Q_OBJECT
   QML_ELEMENT
 
-  Q_PROPERTY(QObject* model READ model WRITE setModel NOTIFY modelChanged)
+  Q_PROPERTY(LatencyDataModel* model READ model WRITE setModel NOTIFY modelChanged)
   Q_PROPERTY(QtCharts::QXYSeries* series READ series WRITE setSeries NOTIFY seriesChanged)
 
  public:
   explicit LatencyModelSeriesMapper(QObject* parent = nullptr);
 
-  void setModel(QObject* model);
+  void setModel(LatencyDataModel* model);
   void setSeries(QtCharts::QXYSeries* series);
 
-  QObject* model() const;
+  LatencyDataModel* model() const;
   QtCharts::QXYSeries* series() const;
 
  signals:
-  void modelChanged(QObject* model);
+  void modelChanged(LatencyDataModel* model);
   void seriesChanged(QtCharts::QXYSeries* series);
 
  protected:

@@ -11,6 +11,7 @@ LatencyDataModel::LatencyDataModel(unsigned maxSize, QObject *parent) : QObject(
 void LatencyDataModel::setMaxSize(unsigned size) {
   m_maxSize = size;
   m_latencyData.reserve(m_maxSize);
+  std::fill_n(std::back_inserter(m_latencyData), size, 0);
 }
 
 unsigned LatencyDataModel::maxSize() const { return m_maxSize; }

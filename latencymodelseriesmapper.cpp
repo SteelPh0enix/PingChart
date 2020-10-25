@@ -36,9 +36,9 @@ void LatencyModelSeriesMapper::updateSeries(double) {
   m_series->replace(seriesData);
 }
 
-void LatencyModelSeriesMapper::setModel(QObject* model) {
+void LatencyModelSeriesMapper::setModel(LatencyDataModel* model) {
   disconnectSignals();
-  m_latencyModel = dynamic_cast<LatencyDataModel*>(model);
+  m_latencyModel = model;
   connectSignals();
   emit modelChanged(m_latencyModel);
 }
@@ -50,6 +50,6 @@ void LatencyModelSeriesMapper::setSeries(QtCharts::QXYSeries* series) {
   emit seriesChanged(m_series);
 }
 
-QObject* LatencyModelSeriesMapper::model() const { return m_latencyModel; }
+LatencyDataModel* LatencyModelSeriesMapper::model() const { return m_latencyModel; }
 
 QtCharts::QXYSeries* LatencyModelSeriesMapper::series() const { return m_series; }
