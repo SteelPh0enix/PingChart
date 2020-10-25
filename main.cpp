@@ -2,9 +2,12 @@
 #include <QFileInfo>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QRandomGenerator>
 #include <QSettings>
+#include <QTimer>
 
 #include "cursorpositionprovider.hpp"
+#include "latencydatamodel.hpp"
 #include "uibackend.hpp"
 
 constexpr char const *const settingsFilePath = "settings.ini";
@@ -38,7 +41,7 @@ int main(int argc, char *argv[])
 
   QApplication app(argc, argv);
   UIBackend backend;
-  CursorPositionProvider dragHelper;
+  LatencyDataModel dataModel(100);
 
   backend.setDestinationIP(destinationIp);
 
@@ -55,7 +58,7 @@ int main(int argc, char *argv[])
       Qt::QueuedConnection);
 
   engine.rootContext()->setContextProperty("uiBackend", &backend);
-  engine.rootContext()->setContextProperty("cursorPositionProvider", &dragHelper);
+  engine.rootContext()->setContextProperty("latencyData", &dataModel);
   engine.load(url);
 
   settings.beginGroup("window");
@@ -68,6 +71,13 @@ int main(int argc, char *argv[])
   settings.endGroup();
 
   QObject::connect(&app, &QApplication::aboutToQuit, [&]() { saveDataOnExit(settings, backend); });
+
+  QTimer testTimer;
+  testTimer.setInterval(100);
+  QObject::connect(&testTimer, &QTimer::timeout,
+                   [&]() { dataModel.addLatency(QRandomGenerator::global()->generateDouble() * 100); });
+
+  testTimer.start();
 
   return app.exec();
 }

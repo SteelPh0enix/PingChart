@@ -2,6 +2,8 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtCharts 2.3
 
+import com.steelph0enix.pingchart 1.0
+
 Window {
     id: mainWindow
     width: 500
@@ -10,14 +12,14 @@ Window {
     title: qsTr("PingChart")
 
     color: "#00000000"
-    flags: Qt.WA_TranslucentBackground | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
 
+    flags: Qt.WA_TranslucentBackground | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
     property color backgroundTransparentColor: "#88222222"
     property color gridColor: "#CACACA"
     property string pingedIP: uiBackend.destinationIP
-    property double averagePing: uiBackend.avgLatency
-    property double maximumPing: uiBackend.maxLatency
-    property double minimumPing: uiBackend.minLatency
+    property double averagePing: latencyData.avgLatency
+    property double maximumPing: latencyData.maxLatency
+    property double minimumPing: latencyData.minLatency
 
     x: uiBackend.windowPosition.x
     y: uiBackend.windowPosition.y
@@ -47,23 +49,37 @@ Window {
 
         backgroundColor: backgroundTransparentColor
         backgroundRoundness: 1
-        theme: ChartView.ChartThemeDark
 
+        theme: ChartView.ChartThemeDark
         LineSeries {
+            id: pingSeries
+
             axisX: ValueAxis {
+                id: pingSeriesX
                 labelsVisible: false
+                min: 0
+                max: latencyData.size
                 gridLineColor: gridColor
                 minorGridLineColor: gridColor
             }
 
             axisY: ValueAxis {
+                id: pingSeriesY
                 labelsFont.family: "Hack"
                 labelsFont.bold: true
                 labelsFont.pointSize: 9
                 labelFormat: "%dms"
+                min: latencyData.minLatency
+                max: latencyData.maxLatency
                 gridLineColor: gridColor
                 minorGridLineColor: gridColor
             }
+        }
+
+        LatencyModelSeriesMapper {
+            id: latencyDataMapper
+            model: latencyData
+            series: pingSeries
         }
     }
 
@@ -77,7 +93,6 @@ Window {
         height: 15
 
         color: backgroundTransparentColor
-
         Text {
             id: pingInfo
             text: qsTr("Dest: %1 | avg: %2ms | min: %3ms | max: %4ms").arg(
@@ -92,6 +107,10 @@ Window {
 
     MouseArea {
         property var clickPos
+
+        CursorPositionProvider {
+            id: cursorPositionProvider
+        }
 
         id: mouseDragHelper
         anchors.fill: parent

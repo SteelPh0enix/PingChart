@@ -2,10 +2,12 @@
 #define CURSORPOSITIONPROVIDER_HPP
 
 #include <QObject>
+#include <QtQml>
 
 class CursorPositionProvider : public QObject
 {
   Q_OBJECT
+  QML_ELEMENT
  public:
   explicit CursorPositionProvider(QObject *parent = nullptr);
 

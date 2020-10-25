@@ -15,9 +15,3 @@ void UIBackend::setDestinationIP(QString const& newIP) {
 QPoint UIBackend::windowPosition() const { return m_windowPosition; }
 
 QString UIBackend::destinationIP() const { return m_destinationIP; }
-
-double UIBackend::avgLatency() const { return m_avgLatency; }
-
-double UIBackend::minLatency() const { return m_minLatency; }
-
-double UIBackend::maxLatency() const { return m_maxLatency; }

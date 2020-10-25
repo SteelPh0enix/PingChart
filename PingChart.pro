@@ -1,6 +1,7 @@
-QT += quick widgets
+QT += quick widgets charts
 
-CONFIG += c++11
+CONFIG += c++11 qmltypes
+
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -8,6 +9,8 @@ CONFIG += c++11
 
 SOURCES += \
         cursorpositionprovider.cpp \
+        latencydatamodel.cpp \
+        latencymodelseriesmapper.cpp \
         main.cpp \
         uibackend.cpp
 
@@ -22,6 +25,9 @@ QML_IMPORT_PATH =
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
 
+QML_IMPORT_NAME = com.steelph0enix.pingchart
+QML_IMPORT_MAJOR_VERSION = 1
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -29,4 +35,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
   cursorpositionprovider.hpp \
+  latencydatamodel.hpp \
+  latencymodelseriesmapper.hpp \
   uibackend.hpp
